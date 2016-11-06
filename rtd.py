@@ -11,6 +11,61 @@ ROJO=[255,0,0]
 azul=[0,255,255]
 GRIN=[0,200,0]
 
+#Clase Jugador principal
+class Jugador(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.image.load("sprite.png") 
+        self.rect=self.image.get_rect() #rect devuelve x,y,width,height
+        self.rect.x=x
+        self.rect.y=y
+        self.var_x=0
+        self.var_y=0
+        self.vida=20 #Definimos la longitud de vida
+        #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
+        #self.sonido1=pygame.mixer.Sound("mordida.wav")
+        self.golpe=True
+
+
+    #con esto le vamos restando cada vez que golpe y se le resta de a 5
+    '''def choque(self):
+        self.vida-=5
+        print "Tu vida es: "
+        print self.vida
+        if  self.golpe:
+            self.sonido1.play()
+
+    def premioo(self):
+        self.vida+=5
+        print "Tu vida es: "
+        print self.vida
+        if  self.golpe:
+            self.sonido2.play()'''
+
+    #Me cambia la posicion del Jugador
+    def update(self,pantalla):
+        self.rect.x += self.var_x
+        self.rect.y += self.var_y
+
+#Margen de donde se puede mover el sprite
+def margen():
+    if jp.rect.x > 680:
+        jp.var_x=0
+        jp.rect.x=680
+
+    if jp.rect.y > 580:
+        jp.var_y=0
+        jp.rect.y=580
+
+    if jp.rect.x < 0:
+        jp.var_x=0
+        jp.rect.x=0
+
+    if jp.rect.y < 0:
+        jp.var_y=0
+        jp.rect.y=0
+
+#Clase donde carga la madera cada vez
 class Madera (pygame.sprite.Sprite):
     def __init__(self,archivo,xi,yi,nombre):
         pygame.sprite.Sprite.__init__(self)
@@ -20,6 +75,7 @@ class Madera (pygame.sprite.Sprite):
         self.rect.x = xi
         self.rect.y = yi
 
+#Clase donde carga el boton flotador la madera cada vez
 class botonflotador (pygame.sprite.Sprite):
     def __init__(self,archivo,xi,yi,nombre):
         pygame.sprite.Sprite.__init__(self)
@@ -30,7 +86,7 @@ class botonflotador (pygame.sprite.Sprite):
         self.rect.y = yi
 
 
-
+##Clase donde carga el flontador y la madera muchas veces
 class pintaflotador(pygame.sprite.Sprite):
     def __init__(self,archivo,xi,yi):
         pygame.sprite.Sprite.__init__(self)
@@ -50,8 +106,8 @@ class pintaflotador(pygame.sprite.Sprite):
 class algas(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.image.load("alga.png") #pygame Surface dibuja un cuadrado de 20,20
-        self.rect=self.image.get_rect() #rect devuelve x,y,width,height
+        self.image=pygame.image.load("alga.png") 
+        self.rect=self.image.get_rect() 
         self.rect.x=x
         self.rect.y=y
         self.var_x=0
@@ -67,6 +123,7 @@ if __name__ == "__main__":
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
     botonflo = botonflotador("float.png",920,80,"flotador") #Cargo boton flotador
     botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
+    jp=Jugador(100,100) #creo el jugador
 
 
 
@@ -100,7 +157,7 @@ if __name__ == "__main__":
                 listaalgas.add(e)
 
     #Agrego los sprites a las listas
-    listatodos.add(botonflo,botonmad)
+    listatodos.add(botonflo,botonmad,jp)
     listabotonflo.add(botonflo)
     listabotonmade.add(botonmad)
 
@@ -121,6 +178,23 @@ fin = False
 while not fin:
 
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    jp.var_x=5
+                    jp.var_y=0
+                if event.key==pygame.K_LEFT: #solo se mueve con la tecla de la Izquierda
+                    jp.var_x=-5
+                    jp.var_y=0
+                if event.key==pygame.K_DOWN: #solo se mueve con la tecla de abajo
+                    jp.var_y+=5
+                    jp.var_x=0
+                if event.key==pygame.K_UP: #solo se mueve con la tecla de ARRIBA
+                    jp.var_y+=-5
+                    jp.var_x=0
+                if event.key == pygame.K_s: # con la tecla s hace stop
+                    jp.var_x=0
+                    jp.var_y=0
+
         if event.type == pygame.MOUSEBUTTONDOWN:
                 for b in listabotonflo:
                     if (contador<=2):
