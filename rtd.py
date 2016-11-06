@@ -23,19 +23,19 @@ class Jugador(pygame.sprite.Sprite):
         self.var_y=0
         self.vida=20 #Definimos la longitud de vida
         #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
-        #self.sonido1=pygame.mixer.Sound("mordida.wav")
+        self.sonido1=pygame.mixer.Sound("mordida.wav")
         self.golpe=True
 
 
     #con esto le vamos restando cada vez que golpe y se le resta de a 5
-    '''def choque(self):
+    def choque(self):
         self.vida-=5
         print "Tu vida es: "
         print self.vida
         if  self.golpe:
             self.sonido1.play()
 
-    def premioo(self):
+    '''def premioo(self):
         self.vida+=5
         print "Tu vida es: "
         print self.vida
@@ -47,11 +47,11 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.x += self.var_x
         self.rect.y += self.var_y
 
-#Margen de donde se puede mover el sprite
+#Margen de donde se puede mover el sprite de jugador
 def margen():
-    if jp.rect.x > 680:
+    if jp.rect.x > 850:
         jp.var_x=0
-        jp.rect.x=680
+        jp.rect.x=850
 
     if jp.rect.y > 580:
         jp.var_y=0
@@ -97,10 +97,10 @@ class pintaflotador(pygame.sprite.Sprite):
         self.rect.y = yi
         self.id = 0
 
-    def update(self,surface):
+    def update(self,surfac):
         if self.click :
             self.rect.center = pygame.mouse.get_pos()
-        surface.blit(self.image,self.rect)
+        surfac.blit(self.image,self.rect)
 
 
 class algas(pygame.sprite.Sprite):
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
     botonflo = botonflotador("float.png",920,80,"flotador") #Cargo boton flotador
     botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
-    jp=Jugador(100,100) #creo el jugador
+    jp=Jugador(450,50) #creo el jugador
 
 
 
@@ -133,6 +133,7 @@ if __name__ == "__main__":
     listabotonflo=pygame.sprite.Group() #lista donde esta todos los flotadores
     listabotonmade=pygame.sprite.Group() #lista donde esta todos las maderas
     listabloques=pygame.sprite.Group() #lista donde esta todos los botones
+    #l_col=pygame.sprite.spritecollide(jp,shark1,shark2,True) #lista de colociones con tiburones
     
     #Cargo coordenas del tiburon1
     shark_X=100 
@@ -195,6 +196,7 @@ while not fin:
                     jp.var_x=0
                     jp.var_y=0
 
+
         if event.type == pygame.MOUSEBUTTONDOWN:
                 for b in listabotonflo:
                     if (contador<=2):
@@ -203,7 +205,7 @@ while not fin:
                             #print "pase"
                             flotador.id = contador
                             contador += 1
-                            print contador
+                            print "Flotador",contador
                             col = True
 
                             while col:
@@ -243,7 +245,7 @@ while not fin:
                             #print "pase"
                             maderaa.id = contador2
                             contador2 += 1
-                            print contador2
+                            print "Madera",contador2
                             col = True
 
                             while col:
@@ -275,6 +277,9 @@ while not fin:
         if event.type == pygame.QUIT:
             fin = True
 
+    #LLamado a funcion que me mantiene el jugador en su margen 
+    margen()
+
     #MOVIMIENTO DE IZQUIERDA A DERECHA EN LA VENTANA DE TIBURON1
     if (shark_X==0):
      flag = False
@@ -295,8 +300,13 @@ while not fin:
     else:
       shark2_X+=2
 
+    #l_col=pygame.sprite.spritecollide(shark1,botonflo,True) #lista de colociones con tiburones
+    #cada que se golpe le voy quitando vida y suena
+    #for en in l_col:
+     #   jp.choque()
+
     pantalla.blit(fondo,(0,0))
-    pantalla.blit(Canoa,[400,0])
+    pantalla.blit(Canoa,[400,0]) #Pinto canoa en esa posicion
     
     listatodos.draw(pantalla)
     pygame.display.update()
