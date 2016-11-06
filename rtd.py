@@ -65,8 +65,8 @@ if __name__ == "__main__":
     shark1=pygame.image.load("shark11.gif") #Cargo sprite de tiburon1
     shark2=pygame.image.load("sharkd.gif") #Cargo sprite de tiburon2
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
-    botonflo = botonflotador("float.png",880,80,"flotador") #Cargo boton flotador
-    botonmad = Madera("trunk.png",900,280,"madera") #Cargo boton madera
+    botonflo = botonflotador("float.png",920,80,"flotador") #Cargo boton flotador
+    botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
 
 
 
@@ -125,7 +125,7 @@ while not fin:
                 for b in listabotonflo:
                     if (contador<=2):
                         if b.rect.collidepoint(event.pos):
-                            flotador = pintaflotador("float.png",500,0)
+                            flotador = pintaflotador("float.png",600,0)
                             #print "pase"
                             flotador.id = contador
                             contador += 1
@@ -160,14 +160,14 @@ while not fin:
                                 bloque.rect.left = e.rect.right
                                 col = True
         #Madera
-
+        col=True
         if event.type == pygame.MOUSEBUTTONDOWN:
                 for m in listabotonmade:
                     if (contador2<=2):
                         if m.rect.collidepoint(event.pos):
                             maderaa = pintaflotador("trunk.png",200,0)
                             #print "pase"
-                            maderaa.id = contador
+                            maderaa.id = contador2
                             contador2 += 1
                             print contador2
                             col = True
@@ -193,10 +193,10 @@ while not fin:
                     col = True
                     while col:
                         col = False
-                        colision =pygame.sprite.spritecollide(bloque,listabloques,False)
-                        for e in colision:
-                            if bloque.id != e.id:
-                                bloque.rect.left = e.rect.right
+                        colision =pygame.sprite.spritecollide(bloquem,listabloques,False)
+                        for ee in colision:
+                            if bloquem.id != ee.id:
+                                bloquem.rect.left = ee.rect.right
                                 col = True           
         if event.type == pygame.QUIT:
             fin = True
