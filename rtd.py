@@ -147,10 +147,12 @@ if __name__ == "__main__":
     pantalla = pygame.display.set_mode((ANCHO, ALTO))
     fondo=pygame.image.load("Fondo.png") #cargo imagen fondo
 
+    #Musica de fondo
     pygame.mixer.music.load("pista.mp3")
     pygame.mixer.music.play(-1)
     #pygame.mixer.music.set_volume(0.25)
 
+    #Cargo sprites
     shark1= shark11("shark11.gif",100,100,"Tiburon1") #Cargo sprite de tiburon1
     shark2= shark11("sharkd.gif",800,400,"Tiburon2") #Cargo sprite de tiburon2
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
@@ -167,6 +169,8 @@ if __name__ == "__main__":
     listabotonmade=pygame.sprite.Group() #lista donde esta todos las maderas
     listabloques=pygame.sprite.Group() #lista donde esta todos los botones
     listatiburones=pygame.sprite.Group() #lista donde esta tdos los tiburones
+    listaflotadores=pygame.sprite.Group() #Lista donde guardo los 3 flotadores
+    listamaderas=pygame.sprite.Group() #Lista donde guardo las 3 maderas
     
     #Banderas de partida de los tiburones
     flag=False
@@ -237,27 +241,28 @@ while not fin:
 
                             while col:
                                 col = False
-                                colision = pygame.sprite.spritecollide(flotador,listabloques,False)
+                                colision = pygame.sprite.spritecollide(flotador,listaflotadores,False)
                                 for bl in colision:
                                     if flotador.id != bl.id:
                                         flotador.rect.left = bl.rect.right
                                         col = True
 
-                            listabloques.add(flotador)
+                            #listabloques.add(flotador)
+                            listaflotadores.add(flotador)
                             listatodos.add(flotador)
 
-                for bloque in listabloques:
+                for bloque in listaflotadores:
                     if bloque.rect.collidepoint(event.pos):
                         bloque.update(pantalla)
                         bloque.click = True
         elif event.type == pygame.MOUSEBUTTONUP:
-            for bloque in listabloques:
+            for bloque in listaflotadores:
                     bloque.update(pantalla)
                     bloque.click = False
                     col = True
                     while col:
                         col = False
-                        colision =pygame.sprite.spritecollide(bloque,listabloques,False)
+                        colision =pygame.sprite.spritecollide(bloque,listaflotadores,False)
                         for e in colision:
                             if bloque.id != e.id:
                                 bloque.rect.left = e.rect.right
@@ -269,7 +274,7 @@ while not fin:
                     if (contador2<=2):
                         if m.rect.collidepoint(event.pos):
                             maderaa = pintaflotador("trunk.png",200,0)
-                            sonido2=pygame.mixer.Sound("seleccion.wav")
+                            sonido2=pygame.mixer.Sound("madera.wav")
                             sonido2.play()
                             #listabotonmade.add(maderaa)
                             #print "pase"
@@ -280,26 +285,27 @@ while not fin:
 
                             while col:
                                 col = False
-                                colision = pygame.sprite.spritecollide(maderaa,listabloques,False)
+                                colision = pygame.sprite.spritecollide(maderaa,listamaderas,False)
                                 for bl in colision:
                                     if maderaa.id != bl.id:
                                         maderaa.rect.left = bl.rect.right
                                         col = True
 
-                            listabloques.add(maderaa)
+                            #listabloques.add(maderaa)
+                            listamaderas.add(maderaa)
                             listatodos.add(maderaa)
-                for bloquem in listabloques:
+                for bloquem in listamaderas:
                     if bloquem.rect.collidepoint(event.pos):
                         bloquem.update(pantalla)
                         bloquem.click = True
         elif event.type == pygame.MOUSEBUTTONUP:
-            for bloquem in listabloques:
+            for bloquem in listamaderas:
                     bloquem.update(pantalla)
                     bloquem.click = False
                     col = True
                     while col:
                         col = False
-                        colision =pygame.sprite.spritecollide(bloquem,listabloques,False)
+                        colision =pygame.sprite.spritecollide(bloquem,listamaderas,False)
                         for ee in colision:
                             if bloquem.id != ee.id:
                                 bloquem.rect.left = ee.rect.right
@@ -333,18 +339,31 @@ while not fin:
     else:
       shark2.rect.x+=2
 
-    l_col=pygame.sprite.spritecollide(shark1,listabloques,True) #lista de colociones de tiburon 1 con flotadores y maderas
-    l_col2=pygame.sprite.spritecollide(shark2,listabloques,True) #lista de colociones de tiburon 2 con flotadores y maderas
+    l_col=pygame.sprite.spritecollide(shark1,listaflotadores,True) #lista de colociones de tiburon 1 con flotadores
+    l_col2=pygame.sprite.spritecollide(shark2,listamaderas,True) #lista de colociones de tiburon 2  maderas
+    l_col3=pygame.sprite.spritecollide(shark1,listamaderas,True) #lista de colociones de tiburon 1 con maderas
+    l_col4=pygame.sprite.spritecollide(shark2,listaflotadores,True) #lista de colociones de tiburon 2 con flotadores 
     l_coljugador=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con jugador
-    #l_colmad=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con madera
+    
 
-    #cada que se golpe le voy quitando vida y suena
+    #colision del tibu 1 con flotadores
     for en in l_col:
         shark1.choque()
-        if(listabloques==[]): #PARA SABER QUE SE ACABARON LOS FLOTADORES Y MADERAS Y ASI ACABAR JUEGO
-           print "perdio"
+        #if(listabloques==[]): #PARA SABER QUE SE ACABARON LOS FLOTADORES Y MADERAS Y ASI ACABAR JUEGO
+         #  print "perdio"
          #   fin=True
+
+    #Colision del tibu 1 con maderas
+    for en in l_col3:
+        shark1.choque()
+
+    #colision del tibu 2 con maderas
     for ennn in l_col2:
+        shark2.choque()
+
+
+    #Colision del tibu 2 con flota
+    for ennn in l_col4:
         shark2.choque()
 
     for enn in l_coljugador:
@@ -359,12 +378,9 @@ while not fin:
             fin=True
 
     pantalla.blit(fondo,(0,0))
-    pantalla.blit(Canoa,[400,0]) #Pinto canoa en esa posicion
-    
+    pantalla.blit(Canoa,[400,0]) #Pinto canoa en esa posicion    
     listatodos.draw(pantalla)
     pygame.display.update()
     listatodos.update(pantalla)
-    #pantalla.blit(shark1,[shark_X,shark_Y])
-    #pantalla.blit(shark2,[shark2_X,shark2_Y])
     pygame.display.flip()
     reloj.tick(40)
