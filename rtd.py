@@ -29,9 +29,9 @@ class shark11(pygame.sprite.Sprite):
 
     #con esto le vamos restando cada vez que golpe y se le resta de a 5
     def choque(self):
-        self.vida-=20
-        print "Tu vida es: "
-        print self.vida
+        #self.vida-=20
+        print "Perdiste un elemento "
+        
         if  self.golpe:
             self.sonido1.play()
 
@@ -47,7 +47,7 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.y=y
         self.var_x=0
         self.var_y=0
-        self.vida=400 #Definimos la longitud de vida
+        self.vida=600 #Definimos la longitud de vida
         #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
         self.sonido1=pygame.mixer.Sound("mordida.wav")
         self.golpe=True
