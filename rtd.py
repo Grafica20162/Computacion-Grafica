@@ -47,7 +47,7 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.y=y
         self.var_x=0
         self.var_y=0
-        self.vida=100 #Definimos la longitud de vida
+        self.vida=800 #Definimos la longitud de vida
         #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
         self.sonido1=pygame.mixer.Sound("mordida.wav")
         self.golpe=True
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     listabotonmade.add(botonmad)
     listatiburones.add(shark1,shark2)
 
-
+    
 
     contador = 0
     contador2 = 0
@@ -325,7 +325,7 @@ while not fin:
     l_col=pygame.sprite.spritecollide(shark1,listabloques,True) #lista de colociones de tiburon 1 con flotadores y maderas
     l_col2=pygame.sprite.spritecollide(shark2,listabloques,True) #lista de colociones de tiburon 2 con flotadores y maderas
     l_coljugador=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con jugador
-    l_colmad=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con madera
+    #l_colmad=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con madera
 
     #cada que se golpe le voy quitando vida y suena
     for en in l_col:
@@ -344,7 +344,7 @@ while not fin:
             imprime=letra.render("GAME OVER...",True,NEGRO)
             pantalla.blit(imprime,(200,200))
             pygame.display.flip()
-            pygame.time.delay(8000)
+            pygame.time.delay(6000)
             fin=True
 
     pantalla.blit(fondo,(0,0))
