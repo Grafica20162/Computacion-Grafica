@@ -47,7 +47,7 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.y=y
         self.var_x=0
         self.var_y=0
-        self.vida=600 #Definimos la longitud de vida
+        self.vida=100 #Definimos la longitud de vida
         #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
         self.sonido1=pygame.mixer.Sound("mordida.wav")
         self.golpe=True
@@ -340,6 +340,11 @@ while not fin:
         jp.choque()
         if(jp.vida==0):
             print "Perdio por bobo"
+            letra=pygame.font.Font("Atlantis Heart Free.ttf",80)
+            imprime=letra.render("GAME OVER...",True,NEGRO)
+            pantalla.blit(imprime,(200,200))
+            pygame.display.flip()
+            pygame.time.delay(8000)
             fin=True
 
     pantalla.blit(fondo,(0,0))
