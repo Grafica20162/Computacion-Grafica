@@ -146,6 +146,11 @@ if __name__ == "__main__":
     pygame.init()
     pantalla = pygame.display.set_mode((ANCHO, ALTO))
     fondo=pygame.image.load("Fondo.png") #cargo imagen fondo
+
+    pygame.mixer.music.load("pista.mp3")
+    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.set_volume(0.25)
+
     shark1= shark11("shark11.gif",100,100,"Tiburon1") #Cargo sprite de tiburon1
     shark2= shark11("sharkd.gif",800,400,"Tiburon2") #Cargo sprite de tiburon2
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
@@ -162,7 +167,6 @@ if __name__ == "__main__":
     listabotonmade=pygame.sprite.Group() #lista donde esta todos las maderas
     listabloques=pygame.sprite.Group() #lista donde esta todos los botones
     listatiburones=pygame.sprite.Group() #lista donde esta tdos los tiburones
-    #l_col=pygame.sprite.spritecollide(jp,shark1,shark2,True) #lista de colociones con tiburones
     
     #Banderas de partida de los tiburones
     flag=False
@@ -184,7 +188,7 @@ if __name__ == "__main__":
     listabotonmade.add(botonmad)
     listatiburones.add(shark1,shark2)
 
-    
+        
 
     contador = 0
     contador2 = 0
@@ -211,6 +215,10 @@ while not fin:
                 if event.key == pygame.K_s: # con la tecla s hace stop
                     jp.var_x=0
                     jp.var_y=0
+
+        if event.type == pygame.KEYUP:
+            jp.var_x=0
+            jp.var_y=0
 
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -301,6 +309,9 @@ while not fin:
 
     #LLamado a funcion que me mantiene el jugador en su margen 
     margen()
+
+
+
 
     #MOVIMIENTO DE IZQUIERDA A DERECHA EN LA VENTANA DE TIBURON1
     if (shark1.rect.x==0):
