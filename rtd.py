@@ -141,6 +141,15 @@ class algas(pygame.sprite.Sprite):
         self.var_x=0
         self.var_y=0
 
+def muerte():
+    #print "Perdio por bobo"
+    letra=pygame.font.Font("Atlantis Heart Free.ttf",80)
+    imprime=letra.render("GAME OVER...",True,NEGRO)
+    pantalla.blit(imprime,(200,200))
+    pygame.display.flip()
+    pygame.time.delay(6000)
+    fin=True
+
 if __name__ == "__main__":
 
     pygame.init()
@@ -158,6 +167,8 @@ if __name__ == "__main__":
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
     botonflo = botonflotador("float.png",920,80,"flotador") #Cargo boton flotador
     botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
+    titleF= pygame.image.load("titleF.png") #caga titulo
+    titleM= pygame.image.load("titleM.png") #carga titulo
     jp=Jugador(450,50) #creo el jugador
 
 
@@ -171,6 +182,7 @@ if __name__ == "__main__":
     listatiburones=pygame.sprite.Group() #lista donde esta tdos los tiburones
     listaflotadores=pygame.sprite.Group() #Lista donde guardo los 3 flotadores
     listamaderas=pygame.sprite.Group() #Lista donde guardo las 3 maderas
+    listainteraccion=pygame.sprite.Group() #Lista donde esta el jugador, flotadores y maderas
     
     #Banderas de partida de los tiburones
     flag=False
@@ -191,11 +203,15 @@ if __name__ == "__main__":
     listabotonflo.add(botonflo)
     listabotonmade.add(botonmad)
     listatiburones.add(shark1,shark2)
+    #listamaderas.add(botonmad)
+    #listaflotadores.add(botonflo)
+    #listainteraccion.add(jp)
 
         
 
     contador = 0
     contador2 = 0
+    contador3=0 #Contador para saber si las listas de flota y made ya estan vacias
     #pantalla.blit(fondo,(0,0)) #con esto coloco el fondo en la pantalla
     #pantalla.blit(shark1,[shark_X,shark_Y]) #Coloco el tiburon1 son las coordenadas en pantalla
     #pantalla.blit(shark2,[shark2_X,shark2_Y]) #Coloco el tiburon2 son las coordenadas en pantalla
@@ -208,23 +224,15 @@ i = 0
 fin = False
 while not fin:
 
+    if(jp.vida==0):
+        letraaaa=pygame.font.Font("Atlantis Heart Free.ttf",80)
+        imprimir=letraaaa.render("GAME OVER...",True,NEGRO)
+        pantalla.blit(imprimir,(200,200))
+        pygame.display.flip()
+        pygame.time.delay(6000)
+        fin=True
+    
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-                if event.key==pygame.K_DOWN: #solo se mueve con la tecla de abajo
-                    jp.var_y=4
-                    jp.var_x=0
-                if event.key==pygame.K_UP: #solo se mueve con la tecla de ARRIBA
-                    jp.var_y=-4
-                    jp.var_x=0
-                if event.key == pygame.K_s: # con la tecla s hace stop
-                    jp.var_x=0
-                    jp.var_y=0
-
-        if event.type == pygame.KEYUP:
-            jp.var_x=0
-            jp.var_y=0
-
-
         if event.type == pygame.MOUSEBUTTONDOWN:
                 for b in listabotonflo:
                     if (contador<=2):
@@ -249,6 +257,7 @@ while not fin:
 
                             #listabloques.add(flotador)
                             listaflotadores.add(flotador)
+                            listainteraccion.add(flotador)
                             listatodos.add(flotador)
 
                 for bloque in listaflotadores:
@@ -293,6 +302,7 @@ while not fin:
 
                             #listabloques.add(maderaa)
                             listamaderas.add(maderaa)
+                            listainteraccion.add(maderaa)
                             listatodos.add(maderaa)
                 for bloquem in listamaderas:
                     if bloquem.rect.collidepoint(event.pos):
@@ -312,6 +322,37 @@ while not fin:
                                 col = True           
         if event.type == pygame.QUIT:
             fin = True
+
+        #CAMINO
+
+        l_colinteraccion=pygame.sprite.spritecollide(jp,listainteraccion,False) #lista de coliciones de jp con mad y flota
+        
+        pene=False
+
+        if(l_colinteraccion):
+            print "True"
+            pene=True
+
+        if event.type == pygame.KEYDOWN and pene:
+
+            if event.key==pygame.K_DOWN: #solo se mueve con la tecla de abajo
+                jp.var_y=4
+                jp.var_x=0
+            if event.key==pygame.K_UP: #solo se mueve con la tecla de ARRIBA
+                jp.var_y=-4
+                jp.var_x=0
+            if event.key == pygame.K_s: # con la tecla s hace stop
+                jp.var_x=0
+                jp.var_y=0
+            pene=False
+
+        if event.type == pygame.KEYUP:
+            jp.var_x=0
+            jp.var_y=0
+
+        '''if (pene==False):
+            jp.vida=0'''
+
 
     #LLamado a funcion que me mantiene el jugador en su margen 
     margen()
@@ -345,10 +386,15 @@ while not fin:
     l_col4=pygame.sprite.spritecollide(shark2,listaflotadores,True) #lista de colociones de tiburon 2 con flotadores 
     l_coljugador=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con jugador
     
+   
+
+
 
     #colision del tibu 1 con flotadores
     for en in l_col:
         shark1.choque()
+        listaflotadores.remove(flotador)
+        contador3+=1
         #if(listabloques==[]): #PARA SABER QUE SE ACABARON LOS FLOTADORES Y MADERAS Y ASI ACABAR JUEGO
          #  print "perdio"
          #   fin=True
@@ -356,15 +402,21 @@ while not fin:
     #Colision del tibu 1 con maderas
     for en in l_col3:
         shark1.choque()
+        listamaderas.remove(maderaa)
+        contador3+=1
 
     #colision del tibu 2 con maderas
     for ennn in l_col2:
         shark2.choque()
+        listamaderas.remove(maderaa)
+        contador3+=1
 
 
     #Colision del tibu 2 con flota
     for ennn in l_col4:
         shark2.choque()
+        listaflotadores.remove(flotador)
+        contador3+=1
 
     for enn in l_coljugador:
         jp.choque()
@@ -377,8 +429,31 @@ while not fin:
             pygame.time.delay(6000)
             fin=True
 
+    #Avisa cuando llega al muelle
+    if(jp.rect.y>507 and jp.rect.y<1000):
+        letr=pygame.font.Font("Atlantis Heart Free.ttf",80)
+        Aviso=letr.render("Felicidades Ganaste",True,NEGRO)
+        pantalla.blit(Aviso,(200,200))
+        pygame.display.flip()
+        pygame.time.delay(6000)
+        fin=True
+    
+    #Pierde si se queda sin elementos
+    if(contador3==6):
+        letraa=pygame.font.Font("Atlantis Heart Free.ttf",80)
+        imprimee=letraa.render("GAME OVER...",True,NEGRO)
+        pantalla.blit(imprimee,(200,200))
+        letraaa=pygame.font.Font("Atlantis Heart Free.ttf",40)
+        imprimeee=letraaa.render("Perdiste todos los elementos",True,NEGRO)
+        pantalla.blit(imprimeee,(300,300))
+        pygame.display.flip()
+        pygame.time.delay(6000)
+        fin=True
+
     pantalla.blit(fondo,(0,0))
     pantalla.blit(Canoa,[400,0]) #Pinto canoa en esa posicion    
+    pantalla.blit(titleF,[925,40]) #pinto titulo de flotadores
+    pantalla.blit(titleM,[927,240]) #Pinto titulo de Maderas
     listatodos.draw(pantalla)
     pygame.display.update()
     listatodos.update(pantalla)
