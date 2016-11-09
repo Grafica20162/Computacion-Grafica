@@ -11,6 +11,27 @@ ROJO=[255,0,0]
 azul=[0,255,255]
 GRIN=[0,200,0]
 
+#Clase donde cargo las rayas
+class rayas(pygame.sprite.Sprite):
+    def __init__(self,archivo,xi,yi,nombre):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(archivo).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.nombre = nombre
+        self.rect.x = xi
+        self.rect.y = yi
+
+        self.vida=20 #Definimos la longitud de vida
+
+
+
+    #con esto le vamos restando cada vez que golpe y se le resta de a 5
+    def choque(self):
+        self.vida-=20
+      
+
+
+
 #Clase donde carga los tiburones
 class shark11(pygame.sprite.Sprite):
     def __init__(self,archivo,xi,yi,nombre):
@@ -47,20 +68,29 @@ class Jugador(pygame.sprite.Sprite):
         self.rect.y=y
         self.var_x=0
         self.var_y=0
-        self.vida=800 #Definimos la longitud de vida
+        self.vida=100 #Definimos la longitud de vida
         #self.sonido2=pygame.mixer.Sound("comidabuena.wav")
         self.sonido1=pygame.mixer.Sound("mordida.wav")
+        self.sonidooo=pygame.mixer.Sound("elec.wav")
         self.golpe=True
 
 
     #con esto le vamos restando cada vez que golpe y se le resta de a 5
     def choque(self):
-        self.vida-=5
+        self.vida-=1
         print "Tu vida es: "
         print self.vida
 
         if  self.golpe:
             self.sonido1.play()
+
+    def choque2(self):
+        self.vida-=1
+        print "Tu vida es: "
+        print self.vida
+
+        if  self.golpe:
+            self.sonidooo.play()
 
     '''def premioo(self):
         self.vida+=5
@@ -166,6 +196,8 @@ if __name__ == "__main__":
     shark1= shark11("shark11.gif",100,100,"Tiburon1") #Cargo sprite de tiburon1
     shark2= shark11("sharkd.gif",800,400,"Tiburon2") #Cargo sprite de tiburon2
     Canoa=pygame.image.load("ship.png") #Cargo la canoa
+    raya=rayas("raya.png",200,200,"Raya1")
+    raya2=rayas("raya.png",400,300,"Raya2")
     botonflo = botonflotador("float.png",920,80,"flotador") #Cargo boton flotador
     botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
     titleF= pygame.image.load("titleF.png") #caga titulo
@@ -185,10 +217,13 @@ if __name__ == "__main__":
     listaflotadores=pygame.sprite.Group() #Lista donde guardo los 3 flotadores
     listamaderas=pygame.sprite.Group() #Lista donde guardo las 3 maderas
     listainteraccion=pygame.sprite.Group() #Lista donde esta el jugador, flotadores y maderas
-    
-    #Banderas de partida de los tiburones
+    listarayas=pygame.sprite.Group() #Lista donde estan las rayas
+
+    #Banderas de partida de los tiburones y rayas
     flag=False
     flag2=False
+    flag3=False
+    flag4=False
 
     #Creo algas aleatoriamente dentro del mar
     for i in range(30):
@@ -201,15 +236,16 @@ if __name__ == "__main__":
                 listaalgas.add(e)
 
     #Agrego los sprites a las listas
-    listatodos.add(botonflo,botonmad,jp,shark1,shark2)
+    listatodos.add(jp,shark1,shark2,botonflo,botonmad,raya,raya2)
     listabotonflo.add(botonflo)
     listabotonmade.add(botonmad)
     listatiburones.add(shark1,shark2)
+    listarayas.add(raya,raya2)
     #listamaderas.add(botonmad)
     #listaflotadores.add(botonflo)
     #listainteraccion.add(jp)
 
-        
+    
 
     contador = 0
     contador2 = 0
@@ -231,10 +267,13 @@ while not fin:
     Fvida= letra.render("Vida: "+str(jp.vida), True, NEGRO)
     
 
-    if(jp.vida==0):
+    if(jp.vida==0 ):
         letraaaa=pygame.font.Font("Atlantis Heart Free.ttf",80)
         imprimir=letraaaa.render("GAME OVER...",True,NEGRO)
         pantalla.blit(imprimir,(200,200))
+        letraaa=pygame.font.Font("Atlantis Heart Free.ttf",40)
+        imprimeee=letraaa.render("Te mato una raya",True,NEGRO)
+        pantalla.blit(imprimeee,(300,300))
         pygame.display.flip()
         pygame.time.delay(6000)
         fin=True
@@ -387,11 +426,33 @@ while not fin:
     else:
       shark2.rect.x+=2
 
+    #MOVIMIENTO DE LA RAYA
+    if (raya.rect.x==100):
+     flag3 = False
+    if(raya.rect.x==400):
+     flag3=True
+    if flag3:
+      raya.rect.x-=2
+    else:
+      raya.rect.x+=2
+
+    #MOVIMIENTO DE LA RAYA2
+    if (raya2.rect.x==100):
+     flag4 = False
+    if(raya2.rect.x==400):
+     flag4=True
+    if flag4:
+      raya2.rect.x-=2
+    else:
+      raya2.rect.x+=2
+
     l_col=pygame.sprite.spritecollide(shark1,listaflotadores,True) #lista de colociones de tiburon 1 con flotadores
     l_col2=pygame.sprite.spritecollide(shark2,listamaderas,True) #lista de colociones de tiburon 2  maderas
     l_col3=pygame.sprite.spritecollide(shark1,listamaderas,True) #lista de colociones de tiburon 1 con maderas
     l_col4=pygame.sprite.spritecollide(shark2,listaflotadores,True) #lista de colociones de tiburon 2 con flotadores 
     l_coljugador=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con jugador
+    l_coljugadorflota=pygame.sprite.spritecollide(jp,listaflotadores,False) #lista de colociones de tiburones con jugador
+    l_coljugadoraya=pygame.sprite.spritecollide(jp,listarayas,False) #lista de colociones de tiburones con jugador
     
    
 
@@ -425,17 +486,26 @@ while not fin:
         listaflotadores.remove(flotador)
         contador3+=1
 
+    #Colision del juador con raya
+    for ennnn in l_coljugadoraya:
+        jp.choque2()
+        
+
+      
     for enn in l_coljugador:
         jp.choque()
-        if(jp.vida==0):
+        if(jp.vida=="0"):
             #print "Perdio por bobo"
             
-            letra=pygame.font.Font("Atlantis Heart Free.ttf",80)
+            '''letra=pygame.font.Font("Atlantis Heart Free.ttf",80)
             imprime=letra.render("GAME OVER...",True,NEGRO)
             pantalla.blit(imprime,(200,200))
+            etraaa=pygame.font.Font("Atlantis Heart Free.ttf",40)
+            imprimeee=letraaa.render("Te mato un Tiburon",True,NEGRO)
+            pantalla.blit(imprimeee,(300,300))
             pygame.display.flip()
             pygame.time.delay(6000)
-            fin=True
+            fin=True'''
 
     #Avisa cuando llega al muelle GANA
     if(jp.rect.y>507 and jp.rect.y<1000):
@@ -445,7 +515,24 @@ while not fin:
         pygame.display.flip()
         pygame.time.delay(10000)
         fin=True
-    
+
+    #Valido si el jugador cae al agua cuando pasa un tiburon encima de el
+    if(jp.rect.y>85 and jp.rect.y<507 and l_coljugador):
+
+        letraa=pygame.font.Font("Atlantis Heart Free.ttf",80)
+        imprimee=letraa.render("GAME OVER...",True,NEGRO)
+        pantalla.blit(imprimee,(200,200))
+        letraaa=pygame.font.Font("Atlantis Heart Free.ttf",40)
+        imprimeee=letraaa.render("Caiste al agua y te comio un tiburon",True,NEGRO)
+        pantalla.blit(imprimeee,(200,300))
+        pygame.display.flip()
+        pygame.time.delay(6000)
+        fin=True
+
+    '''if(l_coljugadorflota):
+        print "hola"'''
+ 
+        
     #Pierde si se queda sin elementos
     if(contador3==6):
         letraa=pygame.font.Font("Atlantis Heart Free.ttf",80)
