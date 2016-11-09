@@ -7,9 +7,7 @@ ALTO = 600
 
 BLANCO=[255,255,255]
 NEGRO=[0,0,0]
-ROJO=[255,0,0]
-azul=[0,255,255]
-GRIN=[0,200,0]
+
 
 #Clase donde cargo las rayas
 class rayas(pygame.sprite.Sprite):
@@ -91,13 +89,6 @@ class Jugador(pygame.sprite.Sprite):
 
         if  self.golpe:
             self.sonidooo.play()
-
-    '''def premioo(self):
-        self.vida+=5
-        print "Tu vida es: "
-        print self.vida
-        if  self.golpe:
-            self.sonido2.play()'''
 
     #Me cambia la posicion del Jugador
     def update(self,pantalla):
@@ -241,18 +232,14 @@ if __name__ == "__main__":
     listabotonmade.add(botonmad)
     listatiburones.add(shark1,shark2)
     listarayas.add(raya,raya2)
-    #listamaderas.add(botonmad)
-    #listaflotadores.add(botonflo)
-    #listainteraccion.add(jp)
+
 
     
 
     contador = 0
     contador2 = 0
     contador3=0 #Contador para saber si las listas de flota y made ya estan vacias
-    #pantalla.blit(fondo,(0,0)) #con esto coloco el fondo en la pantalla
-    #pantalla.blit(shark1,[shark_X,shark_Y]) #Coloco el tiburon1 son las coordenadas en pantalla
-    #pantalla.blit(shark2,[shark2_X,shark2_Y]) #Coloco el tiburon2 son las coordenadas en pantalla
+
     
     pygame.display.flip()
 
@@ -451,7 +438,7 @@ while not fin:
     l_col3=pygame.sprite.spritecollide(shark1,listamaderas,True) #lista de colociones de tiburon 1 con maderas
     l_col4=pygame.sprite.spritecollide(shark2,listaflotadores,True) #lista de colociones de tiburon 2 con flotadores 
     l_coljugador=pygame.sprite.spritecollide(jp,listatiburones,False) #lista de colociones de tiburones con jugador
-    l_coljugadorflota=pygame.sprite.spritecollide(jp,listaflotadores,False) #lista de colociones de tiburones con jugador
+    l_coljugadorflota=pygame.sprite.spritecollide(jp,listaflotadores,False) #lista de colociones de jugador con flotador
     l_coljugadoraya=pygame.sprite.spritecollide(jp,listarayas,False) #lista de colociones de tiburones con jugador
     
    
@@ -463,9 +450,6 @@ while not fin:
         shark1.choque()
         listaflotadores.remove(flotador)
         contador3+=1
-        #if(listabloques==[]): #PARA SABER QUE SE ACABARON LOS FLOTADORES Y MADERAS Y ASI ACABAR JUEGO
-         #  print "perdio"
-         #   fin=True
 
     #Colision del tibu 1 con maderas
     for en in l_col3:
@@ -529,8 +513,7 @@ while not fin:
         pygame.time.delay(6000)
         fin=True
 
-    '''if(l_coljugadorflota):
-        print "hola"'''
+   
  
         
     #Pierde si se queda sin elementos
