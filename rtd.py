@@ -58,6 +58,7 @@ class Jugador(pygame.sprite.Sprite):
         self.vida-=5
         print "Tu vida es: "
         print self.vida
+
         if  self.golpe:
             self.sonido1.play()
 
@@ -169,6 +170,7 @@ if __name__ == "__main__":
     botonmad = Madera("trunk.png",930,280,"madera") #Cargo boton madera
     titleF= pygame.image.load("titleF.png") #caga titulo
     titleM= pygame.image.load("titleM.png") #carga titulo
+    muelle= pygame.image.load("muelle.png") #carga titulo
     jp=Jugador(450,50) #creo el jugador
 
 
@@ -223,6 +225,11 @@ if __name__ == "__main__":
 i = 0
 fin = False
 while not fin:
+
+    #Muestro vida
+    letra=pygame.font.Font("Atlantis Heart Free.ttf",40)
+    Fvida= letra.render("Vida: "+str(jp.vida), True, NEGRO)
+    
 
     if(jp.vida==0):
         letraaaa=pygame.font.Font("Atlantis Heart Free.ttf",80)
@@ -327,13 +334,13 @@ while not fin:
 
         l_colinteraccion=pygame.sprite.spritecollide(jp,listainteraccion,False) #lista de coliciones de jp con mad y flota
         
-        pene=False
+        aux=False
 
         if(l_colinteraccion):
             print "True"
-            pene=True
+            aux=True
 
-        if event.type == pygame.KEYDOWN and pene:
+        if event.type == pygame.KEYDOWN and aux:
 
             if event.key==pygame.K_DOWN: #solo se mueve con la tecla de abajo
                 jp.var_y=4
@@ -344,7 +351,7 @@ while not fin:
             if event.key == pygame.K_s: # con la tecla s hace stop
                 jp.var_x=0
                 jp.var_y=0
-            pene=False
+            aux=False
 
         if event.type == pygame.KEYUP:
             jp.var_x=0
@@ -421,7 +428,8 @@ while not fin:
     for enn in l_coljugador:
         jp.choque()
         if(jp.vida==0):
-            print "Perdio por bobo"
+            #print "Perdio por bobo"
+            
             letra=pygame.font.Font("Atlantis Heart Free.ttf",80)
             imprime=letra.render("GAME OVER...",True,NEGRO)
             pantalla.blit(imprime,(200,200))
@@ -429,13 +437,13 @@ while not fin:
             pygame.time.delay(6000)
             fin=True
 
-    #Avisa cuando llega al muelle
+    #Avisa cuando llega al muelle GANA
     if(jp.rect.y>507 and jp.rect.y<1000):
         letr=pygame.font.Font("Atlantis Heart Free.ttf",80)
         Aviso=letr.render("Felicidades Ganaste",True,NEGRO)
         pantalla.blit(Aviso,(200,200))
         pygame.display.flip()
-        pygame.time.delay(6000)
+        pygame.time.delay(10000)
         fin=True
     
     #Pierde si se queda sin elementos
@@ -454,6 +462,8 @@ while not fin:
     pantalla.blit(Canoa,[400,0]) #Pinto canoa en esa posicion    
     pantalla.blit(titleF,[925,40]) #pinto titulo de flotadores
     pantalla.blit(titleM,[927,240]) #Pinto titulo de Maderas
+    pantalla.blit(muelle,[740,550])
+    pantalla.blit(Fvida,(60,550))
     listatodos.draw(pantalla)
     pygame.display.update()
     listatodos.update(pantalla)
