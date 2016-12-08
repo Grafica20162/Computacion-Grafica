@@ -6,7 +6,7 @@ def loadImages():
     images = {}
     #-------------------------------------------------------------------
     images["background"] = pygame.image.load("game_files/background.png").convert()
-    images["background1"]=pygame.image.load("game_files/background1.png")
+    images["background1"]=pygame.image.load("game_files/background1.jpg")
     images["introd"] = pygame.image.load("game_files/introd.png").convert()
     images["introd1"] = pygame.image.load("game_files/introd1.png").convert()
     images["instrucciones"] = pygame.image.load("game_files/instrucciones.png").convert()

@@ -20,7 +20,7 @@ class Sprite(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     """This class represents the player."""
     #these variables will track the speed of the player...
-    changeX = 0 
+    changeX = 0
     changeY = 0
     #-----------
     walkPos = 0 # this will hold the current image of the walkImages sequence.
@@ -274,7 +274,7 @@ class Player(pygame.sprite.Sprite):
                         self.level.shift_world((0,-20))
     #===================================================================
     def move_left(self):
-        self.changeX = -8
+        self.changeX = -10
         self.image1=pygame.transform.flip(images["playerWalk01"],True,False)
         self.image2=pygame.transform.flip(images["playerWalk02"],True,False)
         self.image3=pygame.transform.flip(images["playerWalk03"],True,False)
@@ -282,7 +282,7 @@ class Player(pygame.sprite.Sprite):
         self.walkImages = (self.image1,self.image2,self.image3)
         
     def move_right(self):
-        self.changeX = 8
+        self.changeX = 10
         self.walkImages = (images["playerWalk01"],images["playerWalk02"],images["playerWalk03"])
 
     def stop(self):

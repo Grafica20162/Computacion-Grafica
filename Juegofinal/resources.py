@@ -211,7 +211,7 @@ class AnimatedBlock(Block):
         
 #=======================================================================
 class Spring(Block):#resorte
-    countdown = 150
+    countdown = 60
     def __init__(self,pos,img,player):
         Block.__init__(self,pos,img)
         self.rect.bottomleft = pos
@@ -222,7 +222,7 @@ class Spring(Block):#resorte
         if self.countdown == 0:
             self.shrunken = False
             self.image = images["SpringDown"]
-            self.countdown = 150
+            self.countdown = 60
         else:
             self.countdown -= 1
         #------------------------------------    
@@ -298,3 +298,18 @@ def load_images_sounds(imagesFiles,soundsFiles):# recibe dos listas(imagenes y s
     images = imagesFiles
     sounds = soundsFiles
     
+#============================================================================
+
+class FinalBoss(pygame.sprite.Sprite):
+    def __init__(self,archivo,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image=pygame.image.load(archivo).convert_alpha()
+        self.rect=self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.var_x=1
+        self.var_y=0
+        self.vida=100
+
+    def menosVidaBala(self):
+        self.vida-=1

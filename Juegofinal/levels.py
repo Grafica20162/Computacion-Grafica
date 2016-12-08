@@ -12,7 +12,7 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
    # fondo #pygame.image.load('background.png')
 
 
-    music_filename = "game_files/Billie Jean.mp3"
+    music_filename = "game_files/sth.mp3"
     def __init__(self,imagesFiles,soundsFiles,player,screen):
         Level.__init__(self,imagesFiles,soundsFiles,player)
         #========================
@@ -58,6 +58,12 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
             platform = Block((i,430),images["grassMid"])
             self.platform_list.add(platform)
 
+        platform = Block(( 1600,230),images["grassLeft"])
+        self.platform_list.add(platform)
+        for i in range(1200,2730,70):
+            platform = Block((i,430),images["grassMid"])
+            self.platform_list.add(platform)     
+
             
         platform = Platform((1260,-70),images["grassHalfLeft"])
         self.platform_list.add(platform)
@@ -67,6 +73,14 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
             
         platform = Platform((1680,-70),images["grassHalfRight"])
         self.platform_list.add(platform)
+
+        platform = Platform((1800,70),images["grassHalfLeft"])
+        self.platform_list.add(platform)
+        platform = Platform((1870,70),images["grassHalfMid"])
+        self.platform_list.add(platform)
+        platform = Platform((1940,70),images["grassHalfRight"])
+        self.platform_list.add(platform)
+        
         
         movingPlatform = MovingPlatform((630,350),images["grassHalf"])
         movingPlatform.leftLimit = 630
@@ -87,7 +101,8 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         
         wall = Block((2170,360),images["brickWall"])
         self.block_list.add(wall)
- 
+        wall = Block((2170,290),images["brickWall"])
+        self.block_list.add(wall)
 
         hud = Block((70,90),images["hud_coin"])
         self.hud_list.add(hud)
@@ -137,6 +152,18 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         slime.player = player
         slime.dead_image = images["slimeDead"]
         self.block_list.add(slime)
+
+        mur = AnimatedBlock((1800,-90),images["mur1"])
+        mur.image1 = images["mur2"]
+        mur.image2 = images["mur3"]
+        mur.leftLimit = 1800
+        mur.rightLimit = 1940
+        mur.changeX = -2
+        mur.level = self
+        mur.player = player
+        mur.dead_image = images["mur4"]
+        self.block_list.add(mur)
+
         
         snail = AnimatedBlock((350,70),images["snailWalk1"])
         snail.image1 = images["snailWalk1"]
@@ -165,7 +192,7 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         fly = Fly((630,210),images["fly1"],images["fly2"])
         self.block_list.add(fly)
         
-        exit_sign = Block((2590,360),images["signExit"])
+        exit_sign = Block((2590,340),images["signExit"])
         self.items_list.add(exit_sign)
         
         spring = Spring((147,220),images["SpringDown"],player)
@@ -184,7 +211,7 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
 class Level_Two(Level_One):
 
     background_color = (40,30,50)
-    music_filename = "game_files/Thriller_level2.mp3"#Mushroom Theme_0.ogg"
+    music_filename = "game_files/hth.mp3"#Mushroom Theme_0.ogg"
     def __init__(self,imagesFiles,soundsFiles,player,screen):
         Level.__init__(self,imagesFiles,soundsFiles,player)
         #========================
@@ -238,6 +265,24 @@ class Level_Two(Level_One):
         self.platform_list.add(platform)
         platform = Platform((980,70),images["castleHalfRight"])
         self.platform_list.add(platform)
+
+        platform = Platform((1790,70),images["castleHalfLeft"])
+        self.platform_list.add(platform)
+        platform = Platform((1860,70),images["castleHalfMid"])
+        self.platform_list.add(platform)
+        platform = Platform((1930,70),images["castleHalfMid"])
+        self.platform_list.add(platform)
+        platform = Platform((2000,70),images["castleHalfRight"])
+        self.platform_list.add(platform)
+
+        wall = Block((1790,360),images["brickWall"])
+        self.block_list.add(wall)
+        wall = Block((1790,290),images["brickWall"])
+        self.block_list.add(wall)
+        wall = Block((1790,220),images["brickWall"])
+        self.block_list.add(wall)
+        wall = Block((1790,150),images["brickWall"])
+        self.block_list.add(wall)
         
         for i in range(770,1190,70):
             lava = AnimatedItem((i,430),images["liquidLavaTop_mid"],
@@ -355,7 +400,7 @@ class Level_Two(Level_One):
         mur1.image1 = images["mur12"]
         mur1.image2 = images["mur13"]
         mur1.leftLimit = 590
-        mur1.rightLimit = 1990
+        mur1.rightLimit = 1780
         mur1.changeX = -2
         mur1.level = self
         mur1.player = player
@@ -400,5 +445,5 @@ class Level_Two(Level_One):
 
 
 
-        exit_sign = Block((2590,360),images["signExit"])
+        exit_sign = Block((2590,330),images["signExit"])
         self.items_list.add(exit_sign)

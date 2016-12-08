@@ -36,7 +36,7 @@ class Level(object):
         #self.background = images["background"] #el atributo bacground contiene la imagen del fonto
         # How far this world has been scrolled left/right/up/down.
         self.world_shift = [0,SCREEN_HEIGHT *-1]# cuando llegue a ese limite, cambia de nivel
-    #===================================================================  
+    #===================================================================
     def update(self):
         if not self.player.terminate:
             # Update all the sprite.Groups: ----------------------------
@@ -57,7 +57,7 @@ class Level(object):
             elif self.player.rect.x < 60 and self.world_shift[0] < 0:
                 self.player.rect.x = 60
                 self.shift_world((3,0))
-            #check for shell convertion to snail    
+            #check for shell convertion to snail
             for item in self.items_list:
                 if isinstance(item,Shell):
                     if item.done:
@@ -80,7 +80,7 @@ class Level(object):
         else:
             self.player.terminate_game()
             pygame.mixer.music.stop()
-    #===================================================================    
+    #===================================================================
     def draw(self,screen):
         """draw everything on the screen"""
         #screen.fill(self.background_color)
@@ -160,7 +160,7 @@ class Level(object):
             return True
         else:
             return False
-    #===================================================================      
+    #===================================================================
     def scroll_world(self,player):
         previousPosition = self.world_shift[1]
         self.world_shift[1] += player.changeY * -1
@@ -172,7 +172,7 @@ class Level(object):
                     self.shift_world((0,player.changeY * -1))
                 else:
                     self.world_shift[1] = previousPosition
-                
+
             elif player.rect.bottom > SCREEN_HEIGHT - 30 and not self.limit_bottom():
                     player.rect.bottom = SCREEN_HEIGHT - 30
                     self.world_shift[1] = previousPosition
@@ -181,6 +181,6 @@ class Level(object):
                 self.world_shift[1] = previousPosition
         else:
             self.world_shift[1] = previousPosition
-    
+
     def load_music(self):
         pygame.mixer.music.load(self.music_filename)

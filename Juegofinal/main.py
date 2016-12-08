@@ -14,7 +14,7 @@ def main():
     # Set the width and height of the screen [width, height]
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     #Set the title of the window:
-    pygame.display.set_caption("THE ADVENTURE BOUDY")
+    pygame.display.set_caption("Adventure in the sky")
     #Set the mouse invisible.
     pygame.mouse.set_visible(False)
     #Loop until the user clicks the close button.
@@ -35,7 +35,7 @@ def main():
         # --- Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
         # --- Limit to 30 frames per second
-        clock.tick(30)
+        clock.tick(60)
     # Close the window and quit.
     # If you forget this line, the program will 'hang'
     # on exit if running from IDLE.
