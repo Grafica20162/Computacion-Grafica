@@ -50,6 +50,8 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         platform = Platform((140,-70),images["grassCliff"])
         self.platform_list.add(platform)
         
+
+        
         platform = Block((980,430),images["grassLeft"])
         self.platform_list.add(platform)
         for i in range(1050,2730,70):
@@ -85,8 +87,7 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         
         wall = Block((2170,360),images["brickWall"])
         self.block_list.add(wall)
-        wall = Block((2170,290),images["brickWall"])
-        self.block_list.add(wall)
+ 
 
         hud = Block((70,90),images["hud_coin"])
         self.hud_list.add(hud)
@@ -160,14 +161,14 @@ class Level_One(Level):#Level_One hereda todo los atributos de la clase Level
         enemi_N1.dead_image = images["enemigo4"]
         self.block_list.add(enemi_N1)
         
-        weight = Weight((1400,210),images["weightChained"],player,self.platform_list,self.items_list)
-        self.block_list.add(weight)
-        
+
         fly = Fly((630,210),images["fly1"],images["fly2"])
         self.block_list.add(fly)
-
         
-        spring = Spring((140,220),images["SpringDown"],player)
+        exit_sign = Block((2590,360),images["signExit"])
+        self.items_list.add(exit_sign)
+        
+        spring = Spring((147,220),images["SpringDown"],player)
         self.block_list.add(spring)
         
         #spring = Spring((2380,430),images["SpringDown"],player)
