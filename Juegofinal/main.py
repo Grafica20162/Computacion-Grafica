@@ -2,6 +2,7 @@
 import pygame
 from introduccion import *
 from game_class import Game
+
 #---------------------
 # Screen dimensions:
 SCREEN_WIDTH = 700# ancho
@@ -30,12 +31,13 @@ def main():
         done = game.eventHandler()
         # Game logic
         game.run_logic()
+       
         # --- Drawing code should go here
         game.displayFrame(screen)
         # --- Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
         # --- Limit to 30 frames per second
-        clock.tick(60)
+        clock.tick(30)
     # Close the window and quit.
     # If you forget this line, the program will 'hang'
     # on exit if running from IDLE.

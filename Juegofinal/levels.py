@@ -445,5 +445,28 @@ class Level_Two(Level_One):
 
 
 
-        exit_sign = Block((2590,330),images["signExit"])
+        exit_sign = Block((2590,330),images["signExit1"])
         self.items_list.add(exit_sign)
+        exit_sign = Block((2590,230),images["signExit1"])
+        self.items_list.add(exit_sign)
+        exit_sign = Block((2590,130),images["signExit1"])
+        self.items_list.add(exit_sign)
+        exit_sign = Block((2590,30),images["signExit1"])
+        self.items_list.add(exit_sign)
+        exit_sign = Block((2590,-70),images["signExit1"])
+        self.items_list.add(exit_sign)
+
+        Cerbero = Boss((2400,400),images["cer1"])
+        Cerbero.image1 = images["cer2"]
+        Cerbero.image2 = images["cer3"]
+        Cerbero.leftLimit = 1800
+        Cerbero.rightLimit = 2540
+        Cerbero.changeX = -2
+        Cerbero.level = self
+        Cerbero.player = player
+        Cerbero.dead_image = images["cerd"]
+        self.block_list.add(Cerbero)
+
+        
+
+

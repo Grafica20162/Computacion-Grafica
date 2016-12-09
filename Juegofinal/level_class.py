@@ -53,10 +53,10 @@ class Level(object):
             # check limits:
             if self.player.rect.x > SCREEN_WIDTH -425 and not self.limit_left():
                 self.player.rect.x = SCREEN_WIDTH -425
-                self.shift_world((-3,0))
+                self.shift_world((-8,0))
             elif self.player.rect.x < 60 and self.world_shift[0] < 0:
                 self.player.rect.x = 60
-                self.shift_world((3,0))
+                self.shift_world((8,0))
             #check for shell convertion to snail
             for item in self.items_list:
                 if isinstance(item,Shell):
@@ -90,6 +90,13 @@ class Level(object):
         self.platform_list.draw(screen)
         # Draw all the items objects:
         self.items_list.draw(screen)
+        self.text_font = pygame.font.Font("game_files/FreeSansBold.ttf",25)
+        if self.player.coins >= 32:
+            text = self.text_font.render("points collected",True,(255,255,255))
+            screen.blit(text,(440,0))
+        if self.player.lives == 4:
+            text = self.text_font.render("hearts collected",True,(255,255,255))
+            screen.blit(text,(440,23))
         # Draw all the blocks:
         for block in self.block_list:
             if isinstance(block,MovableBlock):

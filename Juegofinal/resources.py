@@ -299,17 +299,48 @@ def load_images_sounds(imagesFiles,soundsFiles):# recibe dos listas(imagenes y s
     sounds = soundsFiles
     
 #============================================================================
-
-class FinalBoss(pygame.sprite.Sprite):
-    def __init__(self,archivo,x,y):
-        pygame.sprite.Sprite.__init__(self)
-        self.image=pygame.image.load(archivo).convert_alpha()
-        self.rect=self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.var_x=1
-        self.var_y=0
-        self.vida=100
-
-    def menosVidaBala(self):
-        self.vida-=1
+class Boss(Block):
+    changeX = 0
+    changeY = 0
+    bottomLimit = 0
+    topLimit = 0
+    leftLimit = 0
+    rightLimit = 0
+    level = None
+    player = None
+    image1 = None
+    image2 = None
+    dead_image = None
+    firstImage = True
+    countdown = 5
+    is_snail = False #True if this AnimatedBlock represent a snail.
+    is_shell = False #True if this AnimatedBlock represent a shell
+    def __init__(self,pos,img):
+        Block.__init__(self,pos,img)
+        self.rect.bottomleft = pos
+    def update(self):
+        #------------------------------
+        self.rect.x += self.changeX
+        self.rect.y += self.changeY
+        #---------------------------------------------------------------        
+        if self.rect.bottom > self.bottomLimit or self.rect.top < self.topLimit:
+            self.changeY *= -1
+        cur_pos = self.rect.x - self.level.world_shift[0]
+        if cur_pos < self.leftLimit or cur_pos > self.rightLimit:
+            self.changeX *= -1
+            self.image1 = pygame.transform.flip(self.image1,True,False)
+            self.image2 = pygame.transform.flip(self.image2,True,False)
+            self.dead_image = pygame.transform.flip(self.dead_image,True,False)
+        
+        if self.countdown == 0:
+            if self.firstImage:
+                self.image = self.image2
+                self.firstImage = False
+            else:
+                self.image = self.image1
+                self.firstImage = True
+            self.countdown = 5
+        else:
+            self.countdown -= 1
+        
+#=====================================

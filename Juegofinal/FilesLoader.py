@@ -104,6 +104,7 @@ def loadImages():
     
     
     images["signExit"] = pygame.image.load("game_files/signExit.png").convert_alpha()
+    images["signExit1"] = pygame.image.load("game_files/signExit1.png").convert_alpha()
     
     images["fly1"] = pygame.image.load("game_files/flyFly1.png").convert_alpha()
     images["fly2"] = pygame.image.load("game_files/flyFly2.png").convert_alpha()
@@ -128,6 +129,12 @@ def loadImages():
     images["mur23"] = pygame.image.load("game_files/mur23.png").convert_alpha()
     images["mur24"] = pygame.image.load("game_files/mur24.png").convert_alpha()
 
+    images["cer1"] = pygame.image.load("game_files/Cer1.png").convert_alpha()
+    images["cer2"] = pygame.image.load("game_files/Cer2.png").convert_alpha()
+    images["cer3"] = pygame.image.load("game_files/Cer3.png").convert_alpha()
+    images["cer4"] = pygame.image.load("game_files/Cer4.png").convert_alpha()
+    images["cer5"] = pygame.image.load("game_files/Cer5.png").convert_alpha()
+    images["cerd"] = pygame.image.load("game_files/CerD.png").convert_alpha()
    
     #-------------------------------------------------------------------
     return images

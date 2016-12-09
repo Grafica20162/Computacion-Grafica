@@ -117,6 +117,7 @@ class Game(object):
             # draw the number of coins collected: ----------------------
             coins = str(self.player.coins)
             if len(coins) < 2:
+                cont=0
                 coins = "0" + coins
             i = 50
             for n in coins:
@@ -130,18 +131,26 @@ class Game(object):
             for n in gem:
                 screen.blit(self.number_image(int(n)),(180+i,5))
                 i += 35
+
+
             # ----------------------------------------------------------
             text = self.text_font.render("Nivel:",True,(255,215,0))
             screen.blit(text,(334,5))
             screen.blit(self.number_image(self.currentLevel +1),(400,7))
 
+
+
             if self.win_message:
-                text = self.text_font.render("¡Lo lograste!",True,(128,128,255))
+                text = self.text_font.render("¡Starway to Heaven",True,(150,150,2))
                 screen.blit(text,(100,200))
                 pygame.display.flip()
                 pygame.time.wait(3000)
                 self.running = False
                 self.win_message = False
+
+
+
+
         elif self.about_menu:
 
             #fondo = pygame.image.load("game_files/instrucciones.png").convert()
